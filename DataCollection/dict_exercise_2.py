@@ -13,3 +13,29 @@ products = [
 
 # Product Search Engine
 search = input("Enter your search : ")
+search = search.lower()
+searchResults = []
+for i in range(len(products)):
+    cond_1 = products[i]['brand'].lower() == search
+    cond_2 = products[i]['Category'].lower() == search
+    cond_3 = search in products[i]['p_name'].lower()
+    if  cond_1 or cond_2 or cond_3:
+        print(products[i])
+        searchResults.append(products[i])
+
+print("Sort products price wise...")
+print("""
+1. Low to High
+2. High to Low
+""")
+
+def show(x):
+    return x['price']
+
+ch = input("Enter your choice : ")
+if ch == "1":
+    data = sorted(searchResults,key=show)
+    print(data)
+else:
+    data = sorted(searchResults,key=show,reverse=True)
+    print(data)
