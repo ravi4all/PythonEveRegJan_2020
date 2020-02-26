@@ -1,16 +1,25 @@
-def add(x,y):
+def getInput():
+    f_num = int(input("Enter first number : "))
+    s_num = int(input("Enter second number : "))
+    return f_num,s_num
+
+def add():
+    x,y = getInput()
     z = x + y
     print("Sum is",z)
 
-def sub(x,y):
+def sub():
+    x, y = getInput()
     z = x - y if x > y else y - x
     print("Diff is",z)
 
-def div(x,y):
+def div():
+    x, y = getInput()
     z = x / y
     print("Div is",z)
 
-def mul(x,y):
+def mul():
+    x, y = getInput()
     z = x * y
     print("Mul is",z)
 
@@ -25,11 +34,6 @@ print("""
 """)
 
 ch = input("Enter your choice : ")
-f_num = int(input("Enter first number : "))
-s_num = int(input("Enter second number : "))
-
-# operations = [add,sub,div,mul]
-# operations[int(ch) - 1](f_num,s_num)
 
 operations = {
     "1" : add,
@@ -37,4 +41,4 @@ operations = {
     "3" : div,
     "4" : mul
 }
-operations.get(ch,errHandler)(f_num,s_num)
+operations.get(ch,errHandler)()
