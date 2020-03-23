@@ -15,8 +15,8 @@ blue = 0, 0, 255
 x = 0
 y = 0
 
-moveX = 1
-moveY = 1
+moveX = 2
+moveY = 2
 
 img = pygame.image.load("football.png")
 img_w = img.get_width()
@@ -35,12 +35,12 @@ while True:
     y += moveY
 
     if x > width - img_w:
-        moveX = -1
+        moveX = -2
     elif x < 0:
-        moveX = 1
+        moveX = 2
     elif y > height - img_h:
-        moveY = -1
+        moveY = -2
     elif y < 0:
-        moveY = 1
+        moveY = 2
 
     pygame.display.update()
