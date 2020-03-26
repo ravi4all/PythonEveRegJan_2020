@@ -13,12 +13,39 @@ red = 255,0,0
 blue = 0,0,255
 
 def homeScreeen():
-    pass
+    bg = pygame.image.load("images/bg_main.jpg")
+    bg = pygame.transform.scale(bg, (width, height))
+    msg_1 = "Press SPACE to start game"
+    font = pygame.font.SysFont(None, 50)
+    # font = pygame.font.Font('font_1.ttf', 50)
+    text_1 = font.render(msg_1, True, white)
+    msg_2 = "Welcome to ZombieLand"
+    text_2 = font.render(msg_2, True, white)
+    msg_3 = "Press Q to Quit"
+    text_3 = font.render(msg_3, True, white)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    main()
+                elif event.key == pygame.K_q:
+                    pygame.quit()
+                    quit()
+
+        screen.blit(bg, (0,0))
+        screen.blit(text_1, (50,400))
+        screen.blit(text_2, (300,200))
+        screen.blit(text_3, (600, 400))
+        pygame.display.update()
 
 def gameOver():
     pass
 
-def score():
+def score(counter):
     pass
 
 def timer():
@@ -52,6 +79,8 @@ def main():
 
     gunshotSound = pygame.mixer.Sound('sounds/gunShot.wav')
 
+    counter = 0
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -83,6 +112,9 @@ def main():
         # pygame.draw.rect(screen,red,aim_rect)
         # pygame.draw.rect(screen, red, zombie_rect)
 
+        score(counter)
+
         pygame.display.update()
 
-main()
+# main()
+homeScreeen()
