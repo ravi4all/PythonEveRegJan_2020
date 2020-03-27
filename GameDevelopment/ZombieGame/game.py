@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 import random, os
 pygame.init()
 
@@ -11,8 +12,13 @@ black = 0,0,0
 white = 255,255,255
 red = 255,0,0
 blue = 0,0,255
+yellow = 0,255,255
+
+pygame.time.set_timer(USEREVENT,1000)
 
 def homeScreeen():
+    pygame.mixer.music.load('sounds/background.wav')
+    pygame.mixer.music.play()
     bg = pygame.image.load("images/bg_main.jpg")
     bg = pygame.transform.scale(bg, (width, height))
     msg_1 = "Press SPACE to start game"
@@ -31,7 +37,7 @@ def homeScreeen():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    main()
+                    stageOne()
                 elif event.key == pygame.K_q:
                     pygame.quit()
                     quit()
@@ -42,14 +48,47 @@ def homeScreeen():
         screen.blit(text_3, (600, 400))
         pygame.display.update()
 
+def stageOne():
+    seconds = 0
+    msg_1 = "Level 1"
+    font = pygame.font.SysFont(None, 50)
+    text_1 = font.render(msg_1, True, white)
+    msg_2 = "Kill 20 zombies in 30 seconds"
+    text_2 = font.render(msg_2, True, white)
+    msg_3 = "to Unlock Level 2"
+    text_3 = font.render(msg_3, True, white)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            elif event.type == pygame.USEREVENT:
+                seconds += 1
+
+        if seconds >= 5:
+            main()
+
+        screen.fill(black)
+        screen.blit(text_1, (300, 100))
+        screen.blit(text_2, (150, 200))
+        screen.blit(text_3, (200, 250))
+        pygame.display.update()
+
 def gameOver():
     pass
 
 def score(counter):
-    pass
+    msg = "Score : {}".format(counter)
+    font = pygame.font.SysFont(None, 30)
+    text = font.render(msg,True,yellow)
+    screen.blit(text, (5,5))
 
-def timer():
-    pass
+def timer(seconds):
+    msg = "Time Left : {}".format(seconds)
+    font = pygame.font.SysFont(None, 30)
+    text = font.render(msg, True, yellow)
+    screen.blit(text, (200, 5))
 
 def main():
 
@@ -80,12 +119,16 @@ def main():
     gunshotSound = pygame.mixer.Sound('sounds/gunShot.wav')
 
     counter = 0
+    seconds = 30
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
+            if event.type == USEREVENT:
+                seconds -= 1
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 gunshotSound.play()
@@ -95,6 +138,7 @@ def main():
                     zombie_h = zombieImage.get_height()
                     zombieX = random.randint(0, width - zombie_w)
                     zombieY = random.randint(0, height - zombie_h)
+                    counter += 1
 
         aim_x,aim_y = pygame.mouse.get_pos()
         aim_x = aim_x - aim_w/2
@@ -113,6 +157,7 @@ def main():
         # pygame.draw.rect(screen, red, zombie_rect)
 
         score(counter)
+        timer(seconds)
 
         pygame.display.update()
 
