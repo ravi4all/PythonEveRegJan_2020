@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 import random, os
-import level_2
 pygame.init()
 
 width = 1000
@@ -17,16 +16,19 @@ yellow = 0,255,255
 
 pygame.time.set_timer(USEREVENT,1000)
 
-def homeScreeen():
-    pygame.mixer.music.load('sounds/background.wav')
-    pygame.mixer.music.play()
+bgMusic = pygame.mixer.Sound('sounds/background.wav')
+bgMusic.play()
+
+def homeLevel_2():
+    # pygame.mixer.music.load('sounds/background.wav')
+    # pygame.mixer.music.play()
     bg = pygame.image.load("images/bg_main.jpg")
     bg = pygame.transform.scale(bg, (width, height))
-    msg_1 = "Press SPACE to start game"
+    msg_1 = "Press SPACE to start Level 2"
     font = pygame.font.SysFont(None, 50)
     # font = pygame.font.Font('font_1.ttf', 50)
     text_1 = font.render(msg_1, True, white)
-    msg_2 = "Welcome to ZombieLand"
+    msg_2 = "Level 2 Unlocked"
     text_2 = font.render(msg_2, True, white)
     msg_3 = "Press Q to Quit"
     text_3 = font.render(msg_3, True, white)
@@ -51,12 +53,12 @@ def homeScreeen():
 
 def stageOne():
     seconds = 0
-    msg_1 = "Level 1"
+    msg_1 = "Level 2"
     font = pygame.font.SysFont(None, 50)
     text_1 = font.render(msg_1, True, white)
-    msg_2 = "Kill 20 zombies in 30 seconds"
+    msg_2 = "Kill 20 zombies in 20 seconds"
     text_2 = font.render(msg_2, True, white)
-    msg_3 = "to Unlock Level 2"
+    msg_3 = "to Unlock Level 3"
     text_3 = font.render(msg_3, True, white)
     while True:
         for event in pygame.event.get():
@@ -92,7 +94,6 @@ def timer(seconds):
     screen.blit(text, (200, 5))
 
 def main():
-
     bgImg = pygame.image.load("images/background.png")
 
     aim = pygame.image.load("images/aim_pointer.png")
@@ -118,9 +119,12 @@ def main():
     gunY = height -  gun_h
 
     gunshotSound = pygame.mixer.Sound('sounds/shot_sound.wav')
+    zombieShotSound = pygame.mixer.Sound('sounds/zombie_shot.wav')
 
     counter = 0
     seconds = 30
+
+    shotCount = 0
 
     while True:
         for event in pygame.event.get():
@@ -134,12 +138,17 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 gunshotSound.play()
                 if zombie_rect.colliderect(aim_rect):
-                    zombieImage = random.choice(zombie_list)
-                    zombie_w = zombieImage.get_width()
-                    zombie_h = zombieImage.get_height()
-                    zombieX = random.randint(0, width - zombie_w)
-                    zombieY = random.randint(0, height - zombie_h)
-                    counter += 1
+                    shotCount += 1
+                    zombieImage = pygame.transform.scale(zombieImage, (zombie_w//2,zombie_w//2))
+                    zombieShotSound.play()
+                    if shotCount == 3:
+                        zombieImage = random.choice(zombie_list)
+                        zombie_w = zombieImage.get_width()
+                        zombie_h = zombieImage.get_height()
+                        zombieX = random.randint(0, width - zombie_w)
+                        zombieY = random.randint(0, height - zombie_h)
+                        counter += 1
+                        shotCount = 0
 
         aim_x,aim_y = pygame.mouse.get_pos()
         aim_x = aim_x - aim_w/2
@@ -160,11 +169,7 @@ def main():
         score(counter)
         timer(seconds)
 
-        if counter >= 20:
-            level_2.homeLevel_2()
-            bre
-
         pygame.display.update()
 
 # main()
-homeScreeen()
+homeLevel_2()
