@@ -1,0 +1,2 @@
+python is a programming language
+This data is stored by append mode

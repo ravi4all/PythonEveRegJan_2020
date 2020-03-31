@@ -1,0 +1,3 @@
+hello this is python
+python is fun
+it is used for machine learning
